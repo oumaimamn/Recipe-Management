@@ -1,0 +1,35 @@
+﻿@model List<Recette>
+@{
+}
+
+
+<h2>la liste des recettes</h2>
+
+<a asp-controller="Recette" asp-action="Create">Create New Recette</a>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var recette in Model)
+        {
+            <tr>
+                <td>@recette.Id</td>
+                <td>
+                    <a asp-controller="Recette" asp-action="Show" asp-route-id="@recette.Id">
+                        @recette.Titre
+                    </a>
+  
+                 </td>
+                <td>@recette.Description</td>
+
+            </tr>
+        }
+    </tbody>
+</table>

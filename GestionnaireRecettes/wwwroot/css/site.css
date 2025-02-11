@@ -1,0 +1,77 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* Reset CSS for body and html to eliminate default margins */
+html, body {
+    height: 100%; /* Important for full page sizing */
+    margin: 0; /* Aucune marge */
+    padding: 0; /* Aucun padding */
+    overflow-x: hidden;
+}
+
+/* Container for the background image */
+.full-screen-background {
+    position: relative; /* Position relative for proper positioning of children */
+    width: 100vw; /* 100% of the viewport width */
+    height: 80vh; /* 100% of the viewport height */
+}
+
+/* The background image itself */
+.bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    filter: brightness(90%); /* Slightly dim the image to improve overlaying text visibility */
+}
+
+/* Responsive design enhancement */
+@media (max-width: 768px) {
+    .full-screen-background {
+        height: 120vh; /* Increase height on smaller devices for a more dramatic effect */
+    }
+}
+
+.call-to-action {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+
+a.recipe-card {
+    text-decoration: none!important;
+}
+
+.recipe-img-card {
+    object-fit: contain !important;
+    min-height: 100% !important;
+    height: 200px !important;
+}
+
+
+.btn-group-profile{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}

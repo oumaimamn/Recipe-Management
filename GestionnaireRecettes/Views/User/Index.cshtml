@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Recette>
+@using Microsoft.AspNetCore.Identity
+@using GestionnaireRecettes.Models
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+@{
+    var user = UserManager.GetUserAsync(User).Result;
+}
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-md-5 mx-auto">
+            <div class="row">
+                <div class="col-md-4">
+                    <img width="100" class="rounded-circle" src="/images/avatar-placeholder.svg" />
+                </div>
+                <div class="col-md-8">
+                    <h1>@ViewBag.user.LastName @ViewBag.user.FirstName</h1>
+                    <p>@ViewBag.user.Email</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 mx-auto">
+            <div class="row">
+                @foreach (var recette in Model)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <a class="recipe-card" asp-controller="Recette" asp-action="Show" asp-route-id="@recette.Id">
+                        <!-- Bootstrap class for 4 items in a row on large screens and 2 on medium screens -->
+                        <div class="card">
+                            <!--<img class="card-img-top" src="/img/recipe.jpg" alt="Featured dish">-->
+                            <img src="@(!string.IsNullOrEmpty(recette.Image) ? $"/recettes/{recette.Image}" : "/images/default/default-image.jpg")"
+                                 alt="@recette.Titre"
+                                 class="img-thumbnail recipe-img-card" />
+                            <div class="card-body">
+                                <h5 class="card-title text-dark">@recette.Titre</h5>
+                                <p class="card-text">
+                                    <!-- <img src="/img/profile.jpeg" alt="Profile" class="profile-picture">-->
+
+                                    <span class="profile-name text-secondary">@ViewBag.user.LastName @ViewBag.user.FirstName</span>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                        @if (SignInManager.IsSignedIn(User) && user?.Id == @ViewBag.user.Id)
+                        {
+                        <div class="btn-group w-100 btn-group-profile">
+                            <a class="btn btn-success" asp-controller="Recette" asp-action="Edit" asp-route-id="@recette.Id"><img src="/images/edit-icon.svg" width="24" /></a>
+                            <form asp-action="Delete" asp-controller="Recette" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette recette ?');">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@recette.Id" />  <!-- Transmettre l'ID de la recette -->
+                                <button class="btn btn-danger w-100"  type="submit"><img src="/images/delete-icon.svg" width="24" /></button>
+                            </form>
+                        </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div> 
+    </div>
+</div>
+

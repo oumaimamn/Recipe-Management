@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using GestionnaireRecettes.Models
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+@if (!SignInManager.IsSignedIn(User))
+{
+    <section class="text-center call-to-action py-5">
+        <div class="container">
+            <p>Partagez vos recettes avec vos amis et votre famille</p>
+            <p>Créez votre recette de cuisine en ligne et voyez quels amis cuisinent. </p>
+            <a href="/Identity/Account/Login" class="btn btn-signup text-light" style="background-color: #006545;">Inscrivez-vous gratuitement</a>
+        </div>
+    </section>
+}
+
+
+
+<div class="featured-section">
+    <h2 class="featured-title text-center mb-4">Dernières recettes de la communauté</h2>
+    <div class="row">
+        <!-- Repeat this block for each featured item -->
+        @foreach (var recette in (List<Recette>)ViewBag.recettes)
+        {
+            <div class="col-lg-3 col-md-6 mb-4 recipe-card" asp-controller="Recette" asp-action="Show" asp-route-id="@recette.Id">
+                <!-- Bootstrap class for 4 items in a row on large screens and 2 on medium screens -->
+                <div class="card">
+                    <!--<img class="card-img-top" src="/img/recipe.jpg" alt="Featured dish">-->
+                    <img src="@(!string.IsNullOrEmpty(recette.Image) ? $"/recettes/{recette.Image}" : "/images/default/default-image.jpg")"
+                         alt="@recette.Titre"
+                         class="img-thumbnail recipe-img-card" />
+                    <div class="card-body">
+                        <a style="text-decoration: none;" asp-controller="Recette" asp-action="Show" asp-route-id="@recette.Id"><h5 class="card-title text-dark">@recette.Titre</h5></a>
+                        
+                        <p class="card-text">
+                            <!-- <img src="/img/profile.jpeg" alt="Profile" class="profile-picture">-->
+
+                            <a class="profile-name text-secondary" asp-controller="User" asp-action="Index" asp-route-id="@recette.UserID">@recette.Auteur.LastName @recette.Auteur.FirstName</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>
